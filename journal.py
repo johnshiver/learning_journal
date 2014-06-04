@@ -1,6 +1,7 @@
 # add this at the top, just below the 'coding' line
 from flask import Flask
 from flask import g
+from flask import render_template
 import os
 import psycopg2
 from contextlib import closing
@@ -87,8 +88,9 @@ def write_entry(title, text):
 
 
 @app.route('/')
-def hello():
-    return u'Hello world!'
+def show_entries():
+    entries = get_all_entries()
+    return render_template('list_entries.html', entries=entries)
 
 
 
