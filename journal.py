@@ -19,6 +19,7 @@ CREATE TABLE entries (
 # add this just below the SQL table definition we just created
 app = Flask(__name__)
 
+#ios.environ is a dictionary, this is pointing at heroku for the database url
 app.config['DATABASE'] = os.environ.get(
     'DATABASE_URL', 'dbname=learning_journal user=js231813'
 )
@@ -40,6 +41,6 @@ def init_db():
 def hello():
     return u'Hello world!'
 
-# put this at the very bottom of the file.
+
 if __name__ == '__main__':
     app.run(debug=True)
