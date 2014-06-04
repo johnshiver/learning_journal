@@ -22,6 +22,20 @@ DB_ENTRY_INSERT = """
 INSERT INTO entries (title, text, created) VALUES (%s, %s, %s)
 """
 
+# add this new SQL string below the others
+DB_ENTRIES_LIST = """
+SELECT id, title, text, created FROM entries ORDER BY created DESC
+"""
+
+
+def get_all_entries():
+    """return a list of all entries as dicts"""
+    con = get_database_connection()
+    cur = con.cursor()
+    cur.execute(DB_ENTRIES_LIST)
+    keys = ('id', 'title', 'text', 'created')
+    return [dict(zip(keys, row)) for row in cur.fetchall()]
+
 # add this just below the SQL table definition we just created
 app = Flask(__name__)
 
@@ -75,6 +89,10 @@ def write_entry(title, text):
 @app.route('/')
 def hello():
     return u'Hello world!'
+
+
+
+
 
 # put this at the very bottom of the file.
 if __name__ == '__main__':
