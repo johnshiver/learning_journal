@@ -4,6 +4,7 @@ from flask import g
 import os
 import psycopg2
 from contextlib import closing
+import datetime
 
 # -*- coding: utf-8 -*-
 
@@ -17,6 +18,10 @@ CREATE TABLE entries (
 )
 """
 
+DB_ENTRY_INSERT = """
+INSERT INTO entries (title, text, created) VALUES (%s, %s, %s)
+"""
+
 # add this just below the SQL table definition we just created
 app = Flask(__name__)
 
@@ -24,9 +29,11 @@ app.config['DATABASE'] = os.environ.get(
     'DATABASE_URL', 'dbname=learning_journal'
 )
 
+
 def connect_db():
     """Return a connection to the configured database"""
     return psycopg2.connect(app.config['DATABASE'])
+
 
 def init_db():
     """Initialize the database using DB_SCHEMA
@@ -37,21 +44,33 @@ def init_db():
         db.cursor().execute(DB_SCHEMA)
         db.commit()
 
+
 def get_database_connection():
     db = getattr(g, 'db', None)
     if db is None:
         g.db = db = connect_db()
     return db
 
+
 @app.teardown_request
 def teardown_request(exception):
     db = getattr(g, 'db', None)
     if db is not None:
-        if exception and isinstance(exception,psycopg2.Error):
+        if exception and isinstance(exception, psycopg2.Error):
             db.rollback()
         else:
             db.commit()
         db.close()
+
+
+def write_entry(title, text):
+    if not title or not text:
+        raise ValueError("Title and text required for writing an entry")
+    con = get_database_connection()
+    cur = con.cursor()
+    now = datetime.datetime.utcnow()
+    cur.execute(DB_ENTRY_INSERT, [title, text, now])
+
 
 @app.route('/')
 def hello():
