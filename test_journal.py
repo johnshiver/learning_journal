@@ -101,8 +101,10 @@ def test_get_all_entries(req_context):
 
 
 def test_empty_listing(db):
+    # returns the html of the page as a string
     actual = app.test_client().get('/').data
     expected = 'No entries here so far'
+    # checks to see if expected is a substring of actual
     assert expected in actual
 
 
