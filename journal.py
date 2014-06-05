@@ -7,6 +7,7 @@ import psycopg2
 from contextlib import closing
 import datetime
 
+from passlib.hash import pbkdf2_sha256
 from flask import abort
 from flask import request
 from flask import url_for
@@ -54,7 +55,7 @@ app.config['ADMIN_USERNAME'] = os.environ.get(
     'ADMIN_USERNAME', 'admin'
 )
 app.config['ADMIN_PASSWORD'] = os.environ.get(
-    'ADMIN_PASSWORD', 'admin'
+    'ADMIN_PASSWORD', pbkdf2_sha256.encrypt('admin')
 )
 app.config['SECRET_KEY'] = os.environ.get(
     'FLASK_SECRET_KEY', 'sooperseekritvaluenooneshouldknow'
@@ -106,7 +107,7 @@ def write_entry(title, text):
 def do_login(username='', passwd=''):
     if username != app.config['ADMIN_USERNAME']:
         raise ValueError
-    if passwd != app.config['ADMIN_PASSWORD']:
+    if not pbkdf2_sha256.verify(passwd, app.config['ADMIN_PASSWORD']):
         raise ValueError
     session['logged_in'] = True
 
@@ -127,6 +128,25 @@ def add_entry():
         abort(500)
     return redirect(url_for('show_entries'))
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        try:
+            do_login(request.form['username'].encode('utf-8'),
+                     request.form['password'].encode('utf-8'))
+        except ValueError:
+            error = "Login Failed"
+        else:
+            return redirect(url_for('show_entries'))
+    return render_template('login.html', error=error)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('show_entries'))
 
 
 if __name__ == '__main__':
