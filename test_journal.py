@@ -8,6 +8,7 @@ from journal import get_database_connection
 from journal import init_db
 from journal import write_entry
 from journal import get_all_entries
+from flask import session
 
 TEST_DSN = 'dbname=test_learning_journal'
 
@@ -111,3 +112,40 @@ def test_listing(with_entry):
     actual = app.test_client().get('/').data
     for value in expected:
         assert value in actual
+
+
+def test_add_entries(db):
+    entry_data = {
+        u'title': u'Hello',
+        u'text': u'This is a post',
+    }
+    actual = app.test_client().post(
+        '/add', data=entry_data, follow_redirects=True
+    ).data
+    assert 'No entries here so far' not in actual
+    for expected in entry_data.values():
+        assert expected in actual
+
+
+def test_do_login_success(req_context):
+    username, password = ('admin', 'admin')
+    from journal import do_login
+    assert 'logged_in' not in session
+    do_login(username, password)
+    assert 'logged_in' in session
+
+
+def test_do_login_bad_password(req_context):
+    username = 'admin'
+    bad_password = 'wrongpassword'
+    from journal import do_login
+    with pytest.raises(ValueError):
+        do_login(username, bad_password)
+
+
+def test_do_login_bad_username(req_context):
+    password = 'admin'
+    bad_username = 'wronguser'
+    from journal import do_login
+    with pytest.raises(ValueError):
+        do_login(bad_username, password)
