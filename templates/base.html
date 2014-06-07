@@ -20,7 +20,7 @@
         <aside id="user-controls">
         <ul>
         {% if not session.logged_in %}
-          <li><a href="{{ url_for('login') }}">log in</a></li>
+          <li><a class="btn btn-primary" href="{{ url_for('login') }}">log in</a></li>
         {% else %}
           <li><a href="{{ url_for('logout') }}">log out</a></li>
         {% endif %}
@@ -28,7 +28,7 @@
       </aside>
       <nav>
         <ul>
-          <li><a href="/">Home</a></li>
+          <li><a class="btn btn-primary" href="/">Home</a></li>
         </ul>
       </nav>
     </header>
