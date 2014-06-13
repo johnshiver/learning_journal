@@ -14,6 +14,23 @@ h1{
 
 }
 
+div.field{
+    position: relative;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+
+}
+
+div.control_row{
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+}
+
 .post-heading {
     position: relative;
     padding-top: 35px;
