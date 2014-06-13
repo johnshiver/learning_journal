@@ -14,6 +14,10 @@ from flask import url_for
 from flask import redirect
 from flask import session
 
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
+
 # -*- coding: utf-8 -*-
 
 DB_SCHEMA = """
@@ -42,7 +46,13 @@ def get_all_entries():
     cur = con.cursor()
     cur.execute(DB_ENTRIES_LIST)
     keys = ('id', 'title', 'text', 'created')
-    return [dict(zip(keys, row)) for row in cur.fetchall()]
+    theList = [dict(zip(keys, row)) for row in cur.fetchall()]
+    print "Made it here"
+    for aDict in theList:
+        print aDict['text']
+        aDict['text'] = colorize_text(aDict['text'])
+        print aDict['text']
+    return theList
 
 # add this just below the SQL table definition we just created
 app = Flask(__name__)
@@ -110,6 +120,10 @@ def do_login(username='', passwd=''):
     if not pbkdf2_sha256.verify(passwd, app.config['ADMIN_PASSWORD']):
         raise ValueError
     session['logged_in'] = True
+
+
+def colorize_text(user_input):
+    return highlight(user_input, PythonLexer(), HtmlFormatter())
 
 
 # These are the routing functions:
