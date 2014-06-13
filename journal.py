@@ -49,9 +49,7 @@ def get_all_entries():
     theList = [dict(zip(keys, row)) for row in cur.fetchall()]
     print "Made it here"
     for aDict in theList:
-        print aDict['text']
         aDict['text'] = colorize_text(aDict['text'])
-        print aDict['text']
     return theList
 
 # add this just below the SQL table definition we just created
