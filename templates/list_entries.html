@@ -18,13 +18,28 @@
   </form>
   </aside>
   {% endif %}
-  <h2>Entries</h2>
   {% for entry in entries %}
-  <article class="entry" id="entry={{entry.id}}">
-    <h3>{{ entry.title }}</h3>
-    <p class="dateline">{{ entry.created.strftime("%b. %d, %Y") }}
-    <div class="entry_body">
+  <div class="post" id="entry={{entry.id}}">
+
+    <div class ="post-heading">
+      <div class ="post-title">
+        {{ entry.title }}
+      </div>
+
+      <div class ="post-date">
+        {{ entry.created.strftime("%b. %d, %Y") }}
+      </div>
+    </div>
+
+    <div class="post-content">
       {{ entry.text|safe }}
+      <br />
+      <br />
+    {% if not session.logged_in %}
+      <a href="/"></a>
+    {% else %}
+      <a href="/edit/{{entry.id}}">Edit</a>
+    {% endif %}
     </div>
   </article>
   {% else %}
