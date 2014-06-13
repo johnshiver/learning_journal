@@ -8,15 +8,16 @@ from contextlib import closing
 import datetime
 import sys
 
-import re
-from jinja2 import evalcontextfilter, Markup, escape
-
 from passlib.hash import pbkdf2_sha256
 from flask import abort
 from flask import request
 from flask import url_for
 from flask import redirect
 from flask import session
+
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
 
 # -*- coding: utf-8 -*-
 
@@ -56,7 +57,11 @@ def get_all_entries():
     cur = con.cursor()
     cur.execute(DB_ENTRIES_LIST)
     keys = ('id', 'title', 'text', 'created')
-    return [dict(zip(keys, row)) for row in cur.fetchall()]
+    theList = [dict(zip(keys, row)) for row in cur.fetchall()]
+    print "Made it here"
+    for aDict in theList:
+        aDict['text'] = colorize_text(aDict['text'])
+    return theList
 
 
 def get_one_entry(entryID):
@@ -73,9 +78,6 @@ def update_entry(title, text, entryID):
     cur = con.cursor()
     cur.execute(DB_UPDATE_ENTRY, [title, text, entryID])
 
-
-# for no linebreaks
-_paragraph_re = re.compile(r'(?:\r\n|\r|\n){2,}')
 
 # add this just below the SQL table definition we just created
 app = Flask(__name__)
@@ -95,16 +97,6 @@ app.config['SECRET_KEY'] = os.environ.get(
 )
 
 app.config['DEBUG'] = True
-
-
-@app.template_filter()
-@evalcontextfilter
-def nl2br(eval_ctx, value):
-    result = u'\n\n'.join(u'<p>%s</p>' % p.replace('\n', '<br>\n') \
-        for p in _paragraph_re.split(escape(value)))
-    if eval_ctx.autoescape:
-        result = Markup(result)
-    return result
 
 
 def connect_db():
@@ -155,6 +147,10 @@ def do_login(username='', passwd=''):
     if not pbkdf2_sha256.verify(passwd, app.config['ADMIN_PASSWORD']):
         raise ValueError
     session['logged_in'] = True
+
+
+def colorize_text(user_input):
+    return highlight(user_input, PythonLexer(), HtmlFormatter())
 
 
 # These are the routing functions:
