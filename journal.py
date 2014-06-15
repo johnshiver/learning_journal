@@ -19,6 +19,7 @@ from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 
+import markdown
 # -*- coding: utf-8 -*-
 
 DB_SCHEMA = """
@@ -41,7 +42,7 @@ SELECT id, title, text, created FROM entries ORDER BY created DESC
 """
 
 DB_EDIT_ENTRY = """
-SELECT * FROM entries WHERE id IN (%s)
+SELECT id, title, text, created FROM entries WHERE id = %s
 """
 
 DB_UPDATE_ENTRY = """
@@ -58,9 +59,8 @@ def get_all_entries():
     cur.execute(DB_ENTRIES_LIST)
     keys = ('id', 'title', 'text', 'created')
     theList = [dict(zip(keys, row)) for row in cur.fetchall()]
-    print "Made it here"
     for aDict in theList:
-        aDict['text'] = colorize_text(aDict['text'])
+        aDict['text'] = markdown_text(aDict['text'])
     return theList
 
 
@@ -150,13 +150,24 @@ def do_login(username='', passwd=''):
 
 
 def colorize_text(user_input):
+    # receive text from dict
+    # parse text to find code_section
+    # highlight(code_section, PythonLexer(), HtmlFormatter())
+    # recombine with string
+    # return string
     return highlight(user_input, PythonLexer(), HtmlFormatter())
+
+
+def markdown_text(user_input):
+    return markdown.markdown(user_input, extensions=['codehilite'])
+
 
 
 # These are the routing functions:
 @app.route('/')
 def show_entries():
     entries = get_all_entries()
+    #print entries
     return render_template('list_entries.html', entries=entries)
 
 
@@ -174,6 +185,7 @@ def add_entry():
 def edit_entry(entryID):
 
     entry = get_one_entry(entryID)
+    print entry
     return render_template('edit.html', entry=entry)
 
 
