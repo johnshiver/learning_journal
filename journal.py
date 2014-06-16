@@ -162,12 +162,11 @@ def markdown_text(user_input):
     return markdown.markdown(user_input, extensions=['codehilite'])
 
 
-
 # These are the routing functions:
 @app.route('/')
 def show_entries():
     entries = get_all_entries()
-    #print entries
+    # print entries # debugging
     return render_template('list_entries.html', entries=entries)
 
 
@@ -182,10 +181,10 @@ def add_entry():
 
 
 @app.route('/edit/<int:entryID>', methods=['GET'])
-def edit_entry(entryID):
+def edit_entry(entryID=None):
 
     entry = get_one_entry(entryID)
-    print entry
+    # print entry
     return render_template('edit.html', entry=entry)
 
 
