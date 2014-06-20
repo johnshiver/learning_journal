@@ -180,6 +180,14 @@ def add_entry():
     return redirect(url_for('show_entries'))
 
 
+@app.route('/<int:entryID>', methods=['GET'])
+def view_entry(entryID=None):
+
+    entry = get_one_entry(entryID)
+    # print entry
+    return render_template('entry.html', entry=entry)
+
+
 @app.route('/edit/<int:entryID>', methods=['GET'])
 def edit_entry(entryID=None):
 
