@@ -1,12 +1,11 @@
-{% extends "base.html" %}
 
-{% block body %}
+
 
 <div class="post" id="entry={{entry.id}}">
 
   <div class ="post-heading">
     <div class ="post-title">
-      {{ entry[1] }}
+      <a href="/{{entry[0]}}">{{ entry[1] }}</a>
     </div>
 
     <div class ="post-date">
@@ -18,12 +17,14 @@
     {{ entry[2]|safe }}
     <br />
     <br />
-    <a href="https://twitter.com/share" class="twitter-share-button"
-       data-text = "{{entry[1]}}"
-       data-lang="en">Tweet'dat Shit</a>
-  </div>
+  {% if not session.logged_in %}
+    <a href="/"></a>
+  {% else %}
+    <a href="/edit/{{entry.id}}">Edit</a>
+  {% endif %}
+
 </article>
 
-{% endblock %}
+
 
 
