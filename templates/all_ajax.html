@@ -20,7 +20,7 @@
   {% if not session.logged_in %}
     <a href="/"></a>
   {% else %}
-    <a href="/edit/{{entry.id}}">Edit</a>
+    <a href="/edit/{{entry[0]}}">Edit</a>
   {% endif %}
 
 </article>
