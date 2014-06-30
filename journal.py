@@ -211,8 +211,11 @@ def edit_entry(entryID=None):
     return render_template('edit.html', entry=entry)
 
 
-@app.route('/update/<int:entryID>', methods=['POST'])
-def update(entryID):
+@app.route('/update', methods=['POST'])
+def update(entryID=None):
+
+    entryID = entryID
+    print entryID
     try:
         title = request.form['title']
         text = request.form['text']
