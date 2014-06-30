@@ -19,13 +19,18 @@
     </div>
   </form>
   </aside>
+
+
   {% endif %}
+
+  <div = class ='new'></div>
+
   {% for entry in entries %}
   <div class="post" id="entry={{entry.id}}">
 
     <div class ="post-heading">
       <div class ="post-title">
-        {{ entry.title }}
+        <a href="/{{entry.id}}">{{ entry.title }}</a>
       </div>
 
       <div class ="post-date">

@@ -1,0 +1,30 @@
+
+
+
+<div class="post" id="entry={{entry.id}}">
+
+  <div class ="post-heading">
+    <div class ="post-title">
+      <a href="/{{entry[0]}}">{{ entry[1] }}</a>
+    </div>
+
+    <div class ="post-date">
+      {{ entry[3].strftime("%b. %d, %Y") }}
+    </div>
+  </div>
+
+  <div class="post-content">
+    {{ entry[2]|safe }}
+    <br />
+    <br />
+  {% if not session.logged_in %}
+    <a href="/"></a>
+  {% else %}
+    <a href="/edit/{{entry[0]}}">Edit</a>
+  {% endif %}
+
+</article>
+
+
+
+
