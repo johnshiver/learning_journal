@@ -1,26 +1,37 @@
-# add this at the top, just below the 'coding' line
+import datetime
+import psycopg2
+from passlib.hash import pbkdf2_sha256
+
+from contextlib import closing
+
 from flask import Flask
 from flask import g
 from flask import render_template
-import os
-import psycopg2
-from contextlib import closing
-import datetime
-import sys
-
-from passlib.hash import pbkdf2_sha256
 from flask import abort
 from flask import request
 from flask import url_for
 from flask import redirect
 from flask import session
+from flask.ext.sqlalchemy import SQLAlchemy
 
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 
 import markdown
+
+from models import Post
 # -*- coding: utf-8 -*-
+
+
+# add this just below the SQL table definition we just created
+app = Flask(__name__)
+
+
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:red@blog@localhost/john_blog"
+db = SQLAlchemy(app)
+
 
 DB_SCHEMA = """
 DROP TABLE IF EXISTS entries;
@@ -31,6 +42,7 @@ CREATE TABLE entries (
     created TIMESTAMP NOT NULL
 )
 """
+
 
 DB_ENTRY_INSERT = """
 INSERT INTO entries (title, text, created) VALUES (%s, %s, %s)
@@ -52,83 +64,6 @@ WHERE id=%s;
 """
 
 
-def get_all_entries():
-    """return a list of all entries as dicts"""
-    con = get_database_connection()
-    cur = con.cursor()
-    cur.execute(DB_ENTRIES_LIST)
-    keys = ('id', 'title', 'text', 'created')
-    theList = [dict(zip(keys, row)) for row in cur.fetchall()]
-    for aDict in theList:
-        aDict['text'] = markdown_text(aDict['text'])
-    return theList
-
-
-def get_one_entry(entryID):
-    """return one entry"""
-    con = get_database_connection()
-    cur = con.cursor()
-    cur.execute(DB_EDIT_ENTRY, [entryID])
-    return cur.fetchone()
-
-
-def get_ajax_entry():
-    """return one entry"""
-    con = get_database_connection()
-    cur = con.cursor()
-    cur.execute(DB_ENTRIES_LIST)
-    return cur.fetchone()
-
-
-def update_entry(title, text, entryID):
-    "update entry"
-    con = get_database_connection()
-    cur = con.cursor()
-    cur.execute(DB_UPDATE_ENTRY, [title, text, entryID])
-
-
-# add this just below the SQL table definition we just created
-app = Flask(__name__)
-
-# ios.environ is a dictionary, this is pointing at heroku for the database url
-app.config['DATABASE'] = os.environ.get(
-    'DATABASE_URL', 'dbname=learning_journal'
-)
-app.config['ADMIN_USERNAME'] = os.environ.get(
-    'ADMIN_USERNAME', 'admin'
-)
-app.config['ADMIN_PASSWORD'] = os.environ.get(
-    'ADMIN_PASSWORD', pbkdf2_sha256.encrypt('admin')
-)
-app.config['SECRET_KEY'] = os.environ.get(
-    'FLASK_SECRET_KEY', 'sooperseekritvaluenooneshouldknow'
-)
-
-app.config['DEBUG'] = True
-
-
-def connect_db():
-    """Return a connection to the configured database"""
-    return psycopg2.connect(app.config['DATABASE'])
-
-
-def init_db():
-    """Initialize the database using DB_SCHEMA
-
-    WARNING: executing this function will drop existing tables.
-    """
-    with closing(connect_db()) as db:
-        db.cursor().execute(DB_SCHEMA)
-        db.commit()
-
-
-def get_database_connection():
-    db = getattr(g, 'db', None)
-    if db is None:
-        g.db = db = connect_db()
-    return db
-
-
 @app.teardown_request
 def teardown_request(exception):
     db = getattr(g, 'db', None)
@@ -140,15 +75,6 @@ def teardown_request(exception):
         db.close()
 
 
-def write_entry(title, text):
-    if not title or not text:
-        raise ValueError("Title and text required for writing an entry")
-    con = get_database_connection()
-    cur = con.cursor()
-    now = datetime.datetime.utcnow()
-    cur.execute(DB_ENTRY_INSERT, [title, text, now])
-
-
 def do_login(username='', passwd=''):
     if username != app.config['ADMIN_USERNAME']:
         raise ValueError
@@ -158,11 +84,6 @@ def do_login(username='', passwd=''):
 
 
 def colorize_text(user_input):
-    # receive text from dict
-    # parse text to find code_section
-    # highlight(code_section, PythonLexer(), HtmlFormatter())
-    # recombine with string
-    # return string
     return highlight(user_input, PythonLexer(), HtmlFormatter())
 
 
@@ -170,25 +91,21 @@ def markdown_text(user_input):
     return markdown.markdown(user_input, extensions=['codehilite'])
 
 
-# These are the routing functions:
+######################
+# THE VIEW FUNCTIONS #
+######################
+
 @app.route('/')
 def show_entries():
-    entries = get_all_entries()
-    # print entries # debugging
+    entries = Post.query.all()
     return render_template('list_entries.html', entries=entries)
-
-
-@app.route('/show_ajax')
-def show_ajax():
-    entry = get_ajax_entry()
-    print entry
-    return render_template('all_ajax.html', entry=entry)
 
 
 @app.route('/add', methods=['POST'])
 def add_entry():
     try:
         write_entry(request.form['title'], request.form['text'])
+
     except psycopg2.Error:
         # this will catch any errors generated by the database
         abort(500)
