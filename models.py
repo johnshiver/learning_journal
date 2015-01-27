@@ -14,7 +14,9 @@ db_user = os.environ.get('DB_USER')
 db_password = os.environ.get('DB_PAASWORD')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://{}:{}@localhost/john_blog".format(db_user, db_password)
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://{}:{}@localhost/john_blog".format(db_user, db_password)
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://js231813@localhost/john_blog"
+
 db = SQLAlchemy(app)
 
 
