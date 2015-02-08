@@ -14,8 +14,8 @@ db_user = os.environ.get('DB_USER')
 db_password = os.environ.get('DB_PASSWORD')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://{}:{}@localhost/john_blog".format(db_user, db_password)
-#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://localhost/john_blog"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://johnshiver@localhost/blog".format(db_user, db_password)
+
 
 db = SQLAlchemy(app)
 
@@ -45,27 +45,31 @@ class Post(db.Model):
     def __repr__(self):
         return "<Post %r>" % self.title
 
-    def update_entry(self, title, text, id):
+
+def update_entry(self, title, text, id):
         pass
 
-    def write_entry(title, body):
-        if not title or not body:
-            raise ValueError("Title and text required for writing an entry")
-        new_entry = Post(title, body)
-        db.session.add(new_entry)
-        db.session.commit()
 
-    def get_all_entries(self):
-        """return a list of all entries as dicts"""
-        all_posts = Post.query.all()
-        keys = ('id', 'title', 'text', 'created')
-        theList = [dict(zip(keys, row)) for row in all_posts]
-        for aDict in theList:
-            aDict['text'] = markdown_text(aDict['text'])
-        return theList
+def write_entry(title, body):
+    if not title or not body:
+        raise ValueError("Title and text required for writing an entry")
+    new_entry = Post(title, body)
+    db.session.add(new_entry)
+    db.session.commit()
 
-    def get_one_entry(self, id):
-        pass
+
+def get_all_entries():
+    """return a list of all entries as dicts"""
+    all_posts = Post.query.all()
+    keys = ('id', 'title', 'text', 'created')
+    theList = [dict(zip(keys, row)) for row in all_posts]
+    for aDict in theList:
+        aDict['text'] = markdown_text(aDict['text'])
+    return theList
+
+
+def get_one_entry(id):
+    pass
 
 
 
