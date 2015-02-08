@@ -64,25 +64,6 @@ WHERE id=%s;
 """
 
 
-@app.teardown_request
-def teardown_request(exception):
-    db = getattr(g, 'db', None)
-    if db is not None:
-        if exception and isinstance(exception, psycopg2.Error):
-            db.rollback()
-        else:
-            db.commit()
-        db.close()
-
-
-def do_login(username='', passwd=''):
-    if username != app.config['ADMIN_USERNAME']:
-        raise ValueError
-    if not pbkdf2_sha256.verify(passwd, app.config['ADMIN_PASSWORD']):
-        raise ValueError
-    session['logged_in'] = True
-
-
 def colorize_text(user_input):
     return highlight(user_input, PythonLexer(), HtmlFormatter())
 
@@ -143,25 +124,3 @@ def update(entryID=None):
     return redirect(url_for('show_entries'))
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == 'POST':
-        try:
-            do_login(request.form['username'].encode('utf-8'),
-                     request.form['password'].encode('utf-8'))
-        except ValueError:
-            error = "Login Failed"
-        else:
-            return redirect(url_for('show_entries'))
-    return render_template('login.html', error=error)
-
-
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    return redirect(url_for('show_entries'))
-
-
-if __name__ == '__main__':
-    app.run(debug=True)

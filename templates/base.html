@@ -44,11 +44,6 @@
           <ul class="nav navbar-nav">
 
               <li class="active"><a href="/">Home</a></li>
-            {% if not session.logged_in %}
-              <li><a href="{{ url_for('login') }}">Login</a></li>
-            {% else %}
-              <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>

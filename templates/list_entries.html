@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block body %}
-{% if session.logged_in %}
   <aside>
   <form action="{{ url_for('add_entry') }}" method="POST" class="add_entry">
     <div class="field">
@@ -21,7 +20,6 @@
   </aside>
 
 
-  {% endif %}
 
   <div = class ='new'></div>
 
@@ -41,12 +39,7 @@
     <div class="post-content">
       {{ entry.text|safe }}
       <br />
-      <br />
-    {% if not session.logged_in %}
-      <a href="/"></a>
-    {% else %}
       <a href="/edit/{{entry.id}}">Edit</a>
-    {% endif %}
     </div>
   </article>
   {% else %}
