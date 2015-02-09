@@ -1,27 +1,6 @@
 {% extends "base.html" %}
 
 {% block body %}
-  <aside>
-  <form action="{{ url_for('add_entry') }}" method="POST" class="add_entry">
-    <div class="field">
-      <label for="title">Title</label>
-      <br />
-      <input type="text" size="30" name="title" id="title"/>
-    </div>
-    <div class="field">
-      <label for="text">Text</label>
-      <br />
-      <textarea name="text" id="text" rows="5" cols="80"></textarea>
-    </div>
-    <div class="control_row">
-      <input type="submit" value="Share" name="Share"/>
-    </div>
-  </form>
-  </aside>
-
-
-
-  <div = class ='new'></div>
 
   {% for entry in entries %}
   <div class="post" id="entry={{entry.id}}">
@@ -37,9 +16,12 @@
     </div>
 
     <div class="post-content">
-      {{ entry.text|safe }}
+      {{ entry.body|safe }}
       <br />
+      {% if current_user.is_authenticated() %}
       <a href="/edit/{{entry.id}}">Edit</a>
+      {% else %}
+      {% endif %}
     </div>
   </article>
   {% else %}

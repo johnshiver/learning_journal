@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-             <title>My Codefellows Learning Journal</title>
+             <title>John Shiver's Blog</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap.min.css" rel="stylesheet">
@@ -42,8 +42,12 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-
-              <li class="active"><a href="/">Home</a></li>
+              {% if current_user.is_authenticated() %}
+              <li class="active"><a href="/add_entry">Add entry</a></li>
+              <li class="active"><a href="/logout">Log out</a></li>
+              {% else %}
+              <li class="active"><a href="/login">Log in</a></li>
+              {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -55,13 +59,13 @@
 
 <body>
     <main>
-      <h1>Python Learning Journal</h1>
+      <h1>John Shiver's Blog</h1>
       <section id="content">
       {% block body %}{% endblock %}
       </section>
     </main>
     <footer>
-      <p>Created in the Code Fellows Python Dev Accelerator</p>
+      <p>Some place holder for now</p>
     </footer>
   </body>
 

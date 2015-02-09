@@ -3,10 +3,15 @@ import os
 
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.script import Manager
+from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.login import UserMixin
 
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import markdown
 
@@ -14,10 +19,12 @@ db_user = os.environ.get('DB_USER')
 db_password = os.environ.get('DB_PASSWORD')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://johnshiver@localhost/blog".format(db_user, db_password)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://js231813@localhost/john_blog".format(db_user, db_password)
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
 
 
 def colorize_text(user_input):
@@ -26,6 +33,25 @@ def colorize_text(user_input):
 
 def markdown_text(user_input):
     return markdown.markdown(user_input, extensions=['codehilite'])
+
+
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    email = db.Column(db.String(64), unique=True, index=True)
+    password_hash = db.Column(db.String(128))
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Post(db.Model):
@@ -46,8 +72,13 @@ class Post(db.Model):
         return "<Post %r>" % self.title
 
 
-def update_entry(self, title, text, id):
-        pass
+def update_entry(title, text, id):
+    print title, text, id
+    print 'update entry here'
+    post = Post.query.filter_by(id=id).first()
+    post.title = title
+    post.body = text
+    db.session.commit()
 
 
 def write_entry(title, body):
@@ -60,19 +91,20 @@ def write_entry(title, body):
 
 def get_all_entries():
     """return a list of all entries as dicts"""
-    all_posts = Post.query.all()
-    keys = ('id', 'title', 'text', 'created')
-    theList = [dict(zip(keys, row)) for row in all_posts]
-    for aDict in theList:
-        aDict['text'] = markdown_text(aDict['text'])
-    return theList
+    all_posts = Post.query.order_by(Post.id.desc()).limit(5).all()
+    for post in all_posts:
+        post.body = markdown_text(post.body)
+    return all_posts
 
 
 def get_one_entry(id):
-    pass
+    post = Post.query.filter_by(id=id).first()
+    return post
 
 
 
+if __name__ == '__main__':
+    manager.run()
 
 
 

@@ -6,16 +6,16 @@
 
   <div class ="post-heading">
     <div class ="post-title">
-      {{ entry[1] }}
+      {{ entry.title }}
     </div>
 
     <div class ="post-date">
-      {{ entry[3].strftime("%b. %d, %Y") }}
+      {{ entry.pub_date.strftime("%b. %d, %Y") }}
     </div>
   </div>
 
   <div class="post-content">
-    {{ entry[2]|safe }}
+    {{ entry.body|safe }}
     <br />
     <br />
     <a href="https://twitter.com/share" class="twitter-share-button"

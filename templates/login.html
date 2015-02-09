@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 {% block body %}
   <h2>Login</h2>
-  {% if error -%}
+  {% if error %}
   <p class="error"><strong>Error</strong> {{ error }}
   {%- endif %}
   <form action="{{ url_for('login') }}" method="POST">
+    {{ form.csrf_token }}
     <div class="field">
-      <label for="username">Username</label>
-      <input type="text" name="username" id="username"/>
+      {{ form.email.label }}
+      {{ form.email }}
     </div>
     <div class="field">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password"/>
+      {{ form.password.label }}
+      {{ form.password }}
     </div>
+    <div class="field">
+      {{ form.remember_me.label }}
+      {{ form.remember_me }}
+</div>
     <div class="control_row">
-      <input type="submit" name="Login" value="Login"/>
+      {{ form.submit() }}
     </div>
   </form>
 {% endblock %}

@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 {% block body %}
 
-<form action="/update" method="POST" class="edit_entry">
+<form method="POST" action="/update" class="edit_entry">
     <div class="field">
       <label for="title">Title</label>
       <br />
-      <input type="text" size="50" name="title" id="title" value="{{ entry[1] }}" />
+      <input type="text" size="50" name="title" id="title" value="{{ entry.title }}" />
     </div>    <div class="field">
       <label for="text">Text</label>
       <br />
-      <textarea name="text" id="text" rows="5" cols="80">{{ entry[2] }}</textarea>
+      <textarea name="text" id="text" rows="5" cols="80">{{ entry.body }}</textarea>
     </div>
+    <input type="hidden" name="id" value={{entry.id}}>
     <div class="control_row">
-      <input type="submit" value="Update" name="Update"/>
+      <input type="submit"/>
     </div>
   </form>
 
