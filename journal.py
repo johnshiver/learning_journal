@@ -1,19 +1,16 @@
 import psycopg2
 
 from flask import Flask
-from flask import g
 from flask import render_template
 from flask import abort
 from flask import request
 from flask import url_for
 from flask import redirect
-from flask import flash
 
-from models import User, update_entry, write_entry, get_all_entries, get_one_entry
+from models import User, update_entry, write_entry, get_all_entries, get_one_entry, db
 from forms import LoginForm
 
 from flask.ext.login import LoginManager, login_required, login_user, logout_user
-
 
 
 # -*- coding: utf-8 -*-
@@ -27,6 +24,12 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'somereallylongstring'
 login_manager.init_app(app)
+
+
+@app.cli.command()
+def initdb():
+    """Initialize the database."""
+    db.create_all()
 
 
 ######################

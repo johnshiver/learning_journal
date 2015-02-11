@@ -102,18 +102,5 @@ def get_one_entry(id):
     return post
 
 
-
 if __name__ == '__main__':
     manager.run()
-
-
-
-
-
-
-
-
-
-
-
-
