@@ -26,12 +26,6 @@ app.config['SECRET_KEY'] = 'somereallylongstring'
 login_manager.init_app(app)
 
 
-@app.cli.command()
-def initdb():
-    """Initialize the database."""
-    db.create_all()
-
-
 ######################
 #   USER FUNCTIONS   #
 ######################
