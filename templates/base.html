@@ -38,15 +38,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Journal</a>
+          <a href="/" class="nvabar-brand"><img class="top-photo" alt="" src="/static/assets/photo.jpg" /></a>
+          {# <a class="navbar-brand" href="/">John Shiver's Blog</a> #}
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
               {% if current_user.is_authenticated() %}
-              <li class="active"><a href="/add_entry">Add entry</a></li>
-              <li class="active"><a href="/logout">Log out</a></li>
+              <li class="active"><a class="blog-navigation" href="/add_entry">Add Entry</a></li>
+              <li class="active"><a class="blog-navigation" href="/logout">Log out</a></li>
               {% else %}
-              <li class="active"><a href="/login">Log in</a></li>
+              <li class="active"><a class="blog-primary-navigation" href="/">John Shiver's Blog</a></li>
+              <li class="active"><a class="blog-navigation" href="/all_posts">All Posts</a></li>
+              <li class="active"><a class="blog-navigation" href="/about">Projects</a></li>
               {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
@@ -59,14 +62,22 @@
 
 <body>
     <main>
-      <h1>John Shiver's Blog</h1>
+      {# <h1>John Shiver's Blog</h1> #}
       <section id="content">
       {% block body %}{% endblock %}
       </section>
     </main>
-    <footer>
+{#     <footer>
       <p>Some place holder for now</p>
-    </footer>
+    </footer> #}
+  <div id ="icons">
+    <a class="icon" href="https://www.facebook.com/johneshiver"><img src="/static/icons/facebook.png"></a>
+    <a class="icon"  href="https://twitter.com/TrustyJohn"><img src="/static/icons/twitter.png"></a>
+    <a class="icon"  href="http://www.linkedin.com/pub/john-shiver/49/765/129"><img src="/static/icons/linkedin.png"></a>
+    <a class="icon" href="mailto:johneshiver@gmail.com"><img src="/static/icons/email.png"></a>
+
+</div>
+
   </body>
 
 

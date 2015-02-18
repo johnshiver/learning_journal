@@ -15,8 +15,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import markdown
 
-db_user = os.environ.get('DB_USER')
-db_password = os.environ.get('DB_PASSWORD')
+db_user = os.environ.get('DB_USER', None)
+db_password = os.environ.get('DB_PASSWORD', None)
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://{}:{}@localhost/john_blog".format(db_password, db_user)

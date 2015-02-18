@@ -1,8 +1,40 @@
+
+a:link{
+
+    /*color: #fc140c;*/
+}
+
+.top-photo {
+    border-radius:100%;
+    height:115px;
+    width:115x;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.navbar-nav{
+    margin-top: 7%;
+    margin-left: 4%;
+}
+
+.blog-primary-navigation{
+    font-size: 27px;
+    margin-right: 15px;
+}
+
+.blog-navigation{
+    font-size: 15px;
+    margin-right: 15px;
+}
+
+
+
 body {
 
     display: block;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 10%;
     padding-top: 50px;
     max-width: 750px;
 
@@ -61,4 +93,15 @@ footer{
     display: block;
     margin-right: auto;
     margin-left: auto;
+}
+
+#icons {
+    /*position: fixed;*/
+    text-align: center;
+    bottom: 0px;
+    right: 0px;
+}
+
+.icon {
+    margin-right: 25px;
 }

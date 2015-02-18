@@ -1,0 +1,7 @@
+TONIGHT:
+ ☐ figure out how to make db on postgres
+ ☐ successfully connect to db with app
+ ☐ create tables with db
+ ☐ successfully create app image
+ ☐ successfully build app container
+ ☐ should be deployed
