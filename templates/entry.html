@@ -8,13 +8,12 @@
     <div class ="post-title">
       {{ entry.title }}
     </div>
-
-    <div class ="post-date">
-      {{ entry.pub_date.strftime("%b. %d, %Y") }}
-    </div>
   </div>
 
   <div class="post-content">
+    <div class="post-date">
+      Posted on {{ entry.pub_date.strftime("%b. %d, %Y") }}
+    </div>
     {{ entry.body|safe }}
     <br />
     <br />
