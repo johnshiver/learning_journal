@@ -102,5 +102,11 @@ def get_one_entry(id):
     return post
 
 
+def delete_post(id):
+    p = get_one_entry(id)
+    db.session.delete(p)
+    db.session.commit()
+
+
 if __name__ == '__main__':
     manager.run()
