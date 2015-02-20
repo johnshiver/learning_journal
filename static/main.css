@@ -75,10 +75,12 @@ div.control_row{
 }
 
 .post-date {
-    position: absolute;
+/*    position: absolute;
     right: 0px;
-    bottom: 0px;
+    bottom: 0px;*/
     color: #999;
+    font-size: 15px;
+    margin-bottom: 15px;
 }
 
 .post-content {
