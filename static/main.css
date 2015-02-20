@@ -70,7 +70,7 @@ div.control_row{
 }
 
 .post-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
 }
 
@@ -84,6 +84,7 @@ div.control_row{
 .post-content {
     margin-top: 5px;
     margin-bottom: 45px;
+    font-size: 20px;
 }
 
 footer{
