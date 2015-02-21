@@ -2,32 +2,28 @@
 
 {% block body %}
 
-  {% for entry in entries %}
-  <div class="post" id="entry={{entry.id}}">
 
-    <div class ="post-heading">
-      <div class ="post-title">
-        <a href="/{{entry.id}}">{{ entry.title }}</a>
-      </div>
-    </div>
-
+    <h2>Briefly about me</h2>
     <div class="post-content">
-      <div class="post-date">
-      Posted on {{ entry.pub_date.strftime("%b. %d, %Y") }}
-      </div>
-      {{ entry.body|safe }}
-      <br />
-      {% if current_user.is_authenticated() %}
-      <a href="/edit/{{entry.id}}">Edit</a> | <a href="/delete/{{entry.id}}">Delete</a>
-      {% else %}
-      {% endif %}
+    <p>
+      In 2014 I spent a year learning to code, attended the <a href="http://www.codefellows.org">Codefellows Bootcamp</a>,
+      and now I work as a backend developer at <a href="http://www.offerupnow.com">OfferUp</a>.
+      <br>
+      <br>
+      I code primarily in Python and make web apps in Django / Flask.  I love the open source movement and try to share as much code as possible. The code for this blog can be found <a href="https://github.com/johnshiver/learning_journal">here</a>.
+      <br>
+      <br>
+      I also love <a href="https://soundcloud.com/john-shiver">music</a> and <a href="/books">read</a> as much as possible. Right now, outside of programming nothing interests me more than China.
+    </p>
+    <h2>Recent posts:</h2>
+      <ul>
+      {% for entry in entries %}
+      <li><a href="/{{entry.id}}">{{ entry.title }}</a> | {{ entry.pub_date.strftime("%b. %d, %Y") }}</li>
+      {% endfor %}
+      </ul>
+    </p>
     </div>
-  </article>
-  {% else %}
-  <div class="entry">
-    <p><em>No entries here so far</em></p>
-  </div>
-  {% endfor %}
+
 {% endblock %}
 
 

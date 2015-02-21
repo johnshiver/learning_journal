@@ -46,6 +46,11 @@ h1{
 
 }
 
+h2{
+    font-size: 30px;
+    font-weight: bold;
+}
+
 div.field{
     position: relative;
     display: block;
@@ -87,6 +92,7 @@ div.control_row{
     margin-top: 5px;
     margin-bottom: 45px;
     font-size: 20px;
+    text-align: left;
 }
 
 footer{
