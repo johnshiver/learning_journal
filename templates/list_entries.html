@@ -10,15 +10,15 @@
       and now I work as a backend developer at <a href="http://www.offerupnow.com">OfferUp</a>.
       <br>
       <br>
-      I code primarily in Python and make web apps in Django / Flask.  I love the open source movement and try to share as much code as possible. The code for this blog can be found <a href="https://github.com/johnshiver/learning_journal">here</a>.
+      I code primarily in Python and make web apps in Django / Flask.  I love to share, so the code for this blog can be found <a href="https://github.com/johnshiver/learning_journal">here</a>.
       <br>
       <br>
-      I also love <a href="https://soundcloud.com/john-shiver">music</a> and <a href="/books">read</a> as much as possible. Right now, outside of programming nothing interests me more than China.
+      I also love <a href="https://soundcloud.com/john-shiver">music</a> and <a href="/books">read</a> as much as possible.
     </p>
     <h2>Recent posts:</h2>
       <ul>
       {% for entry in entries %}
-      <li><a href="/{{entry.id}}">{{ entry.title }}</a> | {{ entry.pub_date.strftime("%b. %d, %Y") }}</li>
+      <li>{{ entry.pub_date.strftime("%b. %d, %Y") }} | <a href="/{{entry.id}}">{{ entry.title }}</a></li>
       {% endfor %}
       </ul>
     </p>
