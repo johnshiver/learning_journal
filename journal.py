@@ -9,6 +9,7 @@ from flask import redirect
 
 from models import User, update_entry, write_entry, get_all_entries, get_one_entry, db, delete_post
 from forms import LoginForm
+from twitter import get_tweets
 
 from flask.ext.login import LoginManager, login_required, login_user, logout_user
 
@@ -66,7 +67,8 @@ def logout():
 @app.route('/')
 def show_entries():
     entries = get_all_entries()
-    return render_template('list_entries.html', entries=entries)
+    tweets = get_tweets()
+    return render_template('list_entries.html', entries=entries, tweets=tweets)
 
 
 @app.route('/add_entry', methods=['GET'])

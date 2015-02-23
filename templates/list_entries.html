@@ -16,14 +16,31 @@
       I also love <a href="https://soundcloud.com/john-shiver">music</a> and <a href="/books">read</a> as much as possible.
     </p>
     <h2>Recent posts:</h2>
-      <ul>
+
+    <table class="table table-condensed">
       {% for entry in entries %}
-      <li>{{ entry.pub_date.strftime("%b. %d, %Y") }} | <a href="/{{entry.id}}">{{ entry.title }}</a></li>
+        <tr>
+          <td><div class="tweet-date">{{ entry.pub_date.strftime("%b %d") }}</div></td>
+          <td><a href="/{{entry.id}}">  {{ entry.title }}</a></td>
+        </tr>
+
       {% endfor %}
-      </ul>
+    </table>
+    <h2>Recent tweets:</h2>
+    <div class="tweets">
+     <table class='table table-condensed'>
+      {% for tweet in tweets %}
+          <tr>
+          <td><div class="tweet-date">{{ tweet.date.strftime("%b %d") }}</div></td>
+          <td><div class="tweet-content">{{tweet.text}}</td></div>
+          </tr>
+      {% endfor %}
+     </table>
+{#      {% for tweet in tweets %}
+     <div class="tweet-date">{{ tweet.date.strftime("%b %d") }}</div> <li>{{ tweet.text}}</li>
+     {% endfor %} #}
+    </div>
     </p>
     </div>
 
 {% endblock %}
-
-
