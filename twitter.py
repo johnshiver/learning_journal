@@ -1,7 +1,3 @@
-from tweepy.streaming import StreamListener
-import json
-import time
-import datetime
 from tweepy import OAuthHandler, API
 # from header import consumer_key, consumer_secret, access_token, access_token_secret
 from dateutil import parser
