@@ -89,9 +89,17 @@ def write_entry(title, body):
     db.session.commit()
 
 
-def get_all_entries():
+def get_five_entries():
     """return a list of all entries as dicts"""
     all_posts = Post.query.order_by(Post.id.desc()).limit(5).all()
+    for post in all_posts:
+        post.body = markdown_text(post.body)
+    return all_posts
+
+
+def get_all_entries():
+    """return a list of all entries as dicts"""
+    all_posts = Post.query.order_by(Post.id.desc()).all()
     for post in all_posts:
         post.body = markdown_text(post.body)
     return all_posts

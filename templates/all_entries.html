@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+
+
+    <h2>All posts:</h2>
+
+    <table class="table table-condensed">
+      {% for entry in entries %}
+        <tr>
+          <td><div class="tweet-date">{{ entry.pub_date.strftime("%b %d") }}</div></td>
+          <td><a href="/{{entry.id}}">  {{ entry.title }}</a></td>
+        </tr>
+
+      {% endfor %}
+    </table>
+
+{% endblock %}

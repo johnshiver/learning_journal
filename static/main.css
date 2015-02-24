@@ -26,7 +26,7 @@ a {
 }
 
 div.entry-title {
-    
+    font-size: 15px;
 }
 
 .blog-primary-navigation{
@@ -105,9 +105,6 @@ div.control_row{
 }
 
 .post-date {
-/*    position: absolute;
-    right: 0px;
-    bottom: 0px;*/
     color: #999;
     font-size: 15px;
     margin-bottom: 15px;
@@ -130,11 +127,9 @@ footer{
 }
 
 #icons {
-    /*position: fixed;*/
     text-align: center;
     bottom: 0px;
     right: 0px;
-    /*margin-bottom: -5px;*/
 }
 
 .icon {

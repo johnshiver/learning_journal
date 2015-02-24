@@ -6,10 +6,12 @@ from flask import abort
 from flask import request
 from flask import url_for
 from flask import redirect
+from flask import json
 
-from models import User, update_entry, write_entry, get_all_entries, get_one_entry, db, delete_post
+from models import User, update_entry, write_entry, get_all_entries, get_five_entries, get_one_entry, db, delete_post
 from forms import LoginForm
 from twitter import get_tweets
+from redis_commands import get_value, set_value, fix_dates
 
 from flask.ext.login import LoginManager, login_required, login_user, logout_user
 
@@ -66,9 +68,23 @@ def logout():
 
 @app.route('/')
 def show_entries():
-    entries = get_all_entries()
-    tweets = get_tweets()
+    entries = get_five_entries()
+    cached_tweets = get_value('tweets')
+    if cached_tweets:
+        tweets = json.loads(cached_tweets)
+        print "we cached it"
+        tweets = fix_dates(tweets)
+    else:
+        tweets = get_tweets()
+        j_tweets = json.dumps(tweets)
+        set_value('tweets', j_tweets)
     return render_template('list_entries.html', entries=entries, tweets=tweets)
+
+
+@app.route('/posts')
+def all_entries():
+    entries = get_all_entries()
+    return render_template('all_entries.html', entries=entries)
 
 
 @app.route('/add_entry', methods=['GET'])

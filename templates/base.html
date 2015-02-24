@@ -49,8 +49,8 @@
               <li class="active"><a class="blog-navigation" href="/logout">Log out</a></li>
               {% else %}
               <li class="active"><a class="blog-primary-navigation" href="/">John Shiver</a></li>
-              <li class="active"><a class="blog-navigation" href="/about">-Coder-</a></li>
-              <li class="active"><a class="blog-navigation" href="/about">-Writer-</a></li>
+              <li class="active"><a class="blog-navigation" href="/code">-Coder-</a></li>
+              <li class="active"><a class="blog-navigation" href="/posts">-Writer-</a></li>
               <li class="active"><a class="blog-navigation" href="/books">-Reader-</a></li>
               {% endif %}
           </ul>
@@ -64,14 +64,10 @@
 
 <body>
     <main>
-      {# <h1>John Shiver's Blog</h1> #}
       <section id="content">
       {% block body %}{% endblock %}
       </section>
     </main>
-{#     <footer>
-      <p>Some place holder for now</p>
-    </footer> #}
   <div id ="icons">
     <a class="icon" href="https://www.facebook.com/johneshiver"><img src="/static/icons/facebook.png"></a>
     <a class="icon"  href="https://twitter.com/TrustyJohn"><img src="/static/icons/twitter.png"></a>
