@@ -18,9 +18,6 @@ from flask.ext.login import LoginManager, login_required, login_user, logout_use
 
 # -*- coding: utf-8 -*-
 
-
-# add this just below the SQL table definition we just created
-
 login_manager = LoginManager()
 
 app = Flask(__name__)
