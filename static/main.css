@@ -10,14 +10,14 @@ a:link{
 
 .top-photo {
     border-radius:100%;
-    height:100px;
-    width:85x;
+    height:75px;
+    width:75x;
     margin-top: 10%;
     margin-bottom: 10%;
 }
 
 .navbar-nav{
-    margin-top: 5%;
+    margin-top: 3%;
     margin-left: 4%;
 }
 
@@ -30,7 +30,7 @@ div.entry-title {
 }
 
 .blog-primary-navigation{
-    font-size: 40px;
+    font-size: 35px;
     margin-right: 15px;
 }
 

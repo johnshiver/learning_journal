@@ -15,11 +15,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import markdown
 
-db_user = os.environ.get('DB_USER', None)
-db_password = os.environ.get('DB_PASSWORD', None)
+db_user = os.environ.get('BLOG_DB_USER', None)
+db_password = os.environ.get('BLOG_DB_PASSWORD', None)
+host = os.environ.get('BLOG_DB_HOST', None)
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://{}:{}@localhost/john_blog".format(db_password, db_user)
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://{}:{}@{}/john_blog".format(db_user, db_password, host)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
