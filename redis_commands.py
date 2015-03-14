@@ -1,7 +1,7 @@
 from redis import Redis
 from dateutil import parser
 
-ttl = 60*60*24
+ttl = 60*60*1
 
 
 def _get_connection():

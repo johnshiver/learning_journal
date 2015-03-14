@@ -13,6 +13,9 @@
       I primarily program in Python and enjoy making web apps in Django / Flask.  I love to share and try to be active on github, the code for this blog can be found <a href="https://github.com/johnshiver/learning_journal">here</a>.
 
     </p>
+
+    <br />
+
     <h2>Recent posts:</h2>
 
     <table class="table table-condensed">
@@ -24,6 +27,23 @@
 
       {% endfor %}
     </table>
+
+  <br />
+
+  <h2>Recent grams:</h2>
+  <div class="row">
+  {% for gram in grams%}
+  <div class="col-xs-6 col-md-3">
+    <a href="{{ gram.url }}" class="thumbnail">
+      <img src="{{ gram.photo }}">
+    </a>
+  </div>
+
+  {% endfor %}
+  </div>
+
+ </br>
+
     <h2>Recent tweets:</h2>
     <div class="tweets">
      <table class='table table-condensed'>
@@ -34,9 +54,6 @@
           </tr>
       {% endfor %}
      </table>
-{#      {% for tweet in tweets %}
-     <div class="tweet-date">{{ tweet.date.strftime("%b %d") }}</div> <li>{{ tweet.text}}</li>
-     {% endfor %} #}
     </div>
     </p>
     </div>

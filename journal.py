@@ -11,6 +11,7 @@ from flask import json
 from models import User, update_entry, write_entry, get_all_entries, get_five_entries, get_one_entry, db, delete_post
 from forms import LoginForm
 from twitter import get_tweets
+from grams import get_grams
 from redis_commands import get_value, set_value, fix_dates
 
 from flask.ext.login import LoginManager, login_required, login_user, logout_user
@@ -67,15 +68,22 @@ def logout():
 def show_entries():
     entries = get_five_entries()
     cached_tweets = get_value('tweets')
+    cached_grams = get_value('grams')
     if cached_tweets:
         tweets = json.loads(cached_tweets)
-        print "we cached it"
         tweets = fix_dates(tweets)
     else:
         tweets = get_tweets()
         j_tweets = json.dumps(tweets)
         set_value('tweets', j_tweets)
-    return render_template('list_entries.html', entries=entries, tweets=tweets)
+    if cached_grams:
+        grams = json.loads(cached_grams)
+    else:
+        grams = get_grams()
+        j_grams = json.dumps(grams)
+        set_value('grams', j_grams)
+
+    return render_template('list_entries.html', entries=entries, tweets=tweets, grams=grams)
 
 
 @app.route('/posts')
