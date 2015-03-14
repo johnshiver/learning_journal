@@ -1,10 +1,9 @@
 import os
-import json
 
 from instagram.client import InstagramAPI
-from header import gram_access_token
+# from header import gram_access_token
 
-# access_token = os.environ.get('GRAM_ACCESS_TOKEN', None)
+gram_access_token = os.environ.get('GRAM_ACCESS_TOKEN', None)
 api = InstagramAPI(access_token=gram_access_token)
 
 
