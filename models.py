@@ -112,7 +112,7 @@ def get_all_entries():
     return all_posts
 
 
-def get_one_entry(tite):
+def get_one_entry(id):
     post = Post.query.filter_by(id=id).first()
     return post
 
