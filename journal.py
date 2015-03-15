@@ -109,10 +109,10 @@ def add_entry():
         abort(500)
 
 
-@app.route('/<int:entryID>', methods=['GET'])
-def view_entry(entryID=None):
+@app.route('/<string:slug>', methods=['GET'])
+def view_entry(slug=None):
 
-    entry = get_one_entry(entryID)
+    entry = get_one_entry(slug)
     return render_template('entry.html', entry=entry)
 
 
