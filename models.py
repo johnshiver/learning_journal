@@ -15,6 +15,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import markdown
 
+from utils import slugify
+
 db_user = os.environ.get('BLOG_DB_USER', None)
 db_password = os.environ.get('BLOG_DB_PASSWORD', None)
 host = os.environ.get('BLOG_DB_HOST', None)
@@ -61,16 +63,20 @@ class Post(db.Model):
     title = db.Column(db.String(127))
     body = db.Column(db.Text)
     pub_date = db.Column(db.DateTime)
+    slug = db.Column(db.String(127))
 
-    def __init__(self, title, body, pub_date=None):
+    def __init__(self, title, body, slug=None, pub_date=None):
         self.title = title
         self.body = body
         if pub_date is None:
             pub_date = datetime.datetime.utcnow()
+        if slug is None:
+            slug = slugify(self.title)
+        self.slug = slug
         self.pub_date = pub_date
 
     def __repr__(self):
-        return "<Post %r>" % self.title
+        return slugify(self.title)
 
 
 def update_entry(title, text, id):
@@ -106,7 +112,7 @@ def get_all_entries():
     return all_posts
 
 
-def get_one_entry(id):
+def get_one_entry(tite):
     post = Post.query.filter_by(id=id).first()
     return post
 
