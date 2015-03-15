@@ -11,10 +11,10 @@
         <tr>
           <td><div class="tweet-date">{{ entry.pub_date.strftime("%b %d") }}</div></td>
           <td><a href="/{{entry.slug}}">  {{ entry.title }}</a></td>
-         {#  {% if current_user.is_authenticated() %}
-          <td><a href="/delete/{{entry.id}}">Delete this entry</a></td>
+          {% if current_user.is_authenticated() %}
+          <td><a href="/delete/{{entry.id}}">Delete</a></td>
           {% else %}
-          {% endif %} #}
+          {% endif %}
         </tr>
 
       {% endfor %}
