@@ -117,8 +117,8 @@ def get_one_entry(slug):
     return post
 
 
-def delete_post(id):
-    p = get_one_entry(id)
+def delete_post(slug):
+    p = get_one_entry(slug)
     db.session.delete(p)
     db.session.commit()
 
