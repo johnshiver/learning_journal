@@ -86,6 +86,7 @@ div.control_row{
 
 .grams {
     display: inline-block;
+    padding: 1px;
 }
 
 .tweet-date {
