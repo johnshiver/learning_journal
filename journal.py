@@ -86,7 +86,7 @@ def show_entries():
     return render_template('list_entries.html', entries=entries, tweets=tweets, grams=grams)
 
 
-@app.route('/posts')
+@app.route('/all_posts')
 def all_entries():
     entries = get_all_entries()
     return render_template('all_entries.html', entries=entries)
@@ -109,7 +109,7 @@ def add_entry():
         abort(500)
 
 
-@app.route('/<string:slug>', methods=['GET'])
+@app.route('/posts/<string:slug>', methods=['GET'])
 def view_entry(slug=None):
 
     entry = get_one_entry(slug)
