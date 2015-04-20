@@ -18,7 +18,7 @@ Katas as:
 > An exercise in programming which helps a programmer hone their skills
 > through practice and reptition.
 
-< _Further reading:_ [Wikipedia: Kata](http://en.wikipedia.org/wiki/Kata_%28programming%29)
+> _Further reading:_ [Wikipedia: Kata](http://en.wikipedia.org/wiki/Kata_%28programming%29)
 
 It turns out there are a ton of sites that offer hundreds of coding katas
 to complete, and the one I use is [Code Wars](http://www.codewars.com).
