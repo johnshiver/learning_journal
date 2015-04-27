@@ -80,8 +80,6 @@ class Post(db.Model):
 
 
 def update_entry(title, text, id):
-    print title, text, id
-    print 'update entry here'
     post = Post.query.filter_by(id=id).first()
     post.title = title
     post.body = text
@@ -114,6 +112,11 @@ def get_all_entries():
 
 def get_one_entry(slug):
     post = Post.query.filter_by(slug=slug).first()
+    return post
+
+
+def get_entry_by_id(id):
+    post = Post.query.filter_by(id=id).first()
     return post
 
 

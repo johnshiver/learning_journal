@@ -8,7 +8,7 @@ from flask import url_for
 from flask import redirect
 from flask import json
 
-from models import User, update_entry, write_entry, get_all_entries, get_five_entries, get_one_entry, db, delete_post
+from models import User, update_entry, write_entry, get_all_entries, get_five_entries, get_one_entry, delete_post, get_entry_by_id
 from forms import LoginForm
 from twitter import get_tweets
 from grams import get_grams
@@ -120,7 +120,7 @@ def view_entry(slug=None):
 @login_required
 def edit_entry(entryID=None):
 
-    entry = get_one_entry(entryID)
+    entry = get_entry_by_id(entryID)
     return render_template('edit.html', entry=entry)
 
 
