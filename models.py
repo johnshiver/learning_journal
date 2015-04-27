@@ -116,7 +116,7 @@ def get_one_entry(slug):
 
 
 def get_entry_by_id(id):
-    post = Post.query.filter_by(id=id).first()
+    post = Post.query.get(id)
     return post
 
 
